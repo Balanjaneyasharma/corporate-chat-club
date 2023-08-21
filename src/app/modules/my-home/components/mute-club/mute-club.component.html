@@ -1,0 +1,16 @@
+<div class="modal-header bg-secondary text-primary">
+    <h3 class="modal-title text-primary "> Mute {{fromParent.name}}</h3>
+    <span class="ki ki-close text-primary" (click)="close()"></span>
+</div>
+<div class="modal-body pt-4">
+    <p>
+        This will mute all the messages and notifications 
+        regarding this club until it is unmuted.
+    </p>
+    <p>Do you wish to continue</p>
+    <div class="mt-10 d-flex justify-content-end">
+        <button class="btn bg-secondary mr-10" (click)="close()">Cancel</button>
+        <button class="btn bg-accent-violet text-white" (click)="muteClub()">Confirm
+        </button>
+    </div>
+</div>

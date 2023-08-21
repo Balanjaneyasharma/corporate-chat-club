@@ -1,0 +1,102 @@
+<div class="modal-header bg-secondary">
+    <h5 class="modal-title text-primary text-capitalize">Add new user</h5>
+    <span class=" ki ki-close text-primary" (click)="close()"></span>
+</div>
+<div class="modal-body">
+    <form action="" class="mt-10" [formGroup]="addUserForm" (ngSubmit)="onSubmit()" >
+        <div class="w-450">
+            <div class="d-flex  justify-content-between">
+                <div class="form-group w-200">
+                    <label class="text-capitalize">first name</label>
+                    <span class="text-danger" *ngIf="addUserForm.get('firstName')!.invalid&&(addUserForm.get('firstName')!.touched || formInvalid)"> is Required</span>
+                    <input type="text" class="form-control"  formControlName="firstName">
+                </div>
+                <div class="form-group w-200">
+                    <label class="text-capitalize">middle name</label>
+                    <span class="text-danger" *ngIf="addUserForm.get('middleName')!.invalid&&(addUserForm.get('middleName')!.touched || formInvalid)"> is Required</span>
+                    <input type="text" class="form-control"  formControlName="middleName">
+                </div>
+            </div>
+            <div class="d-flex  justify-content-between">
+                <div class="form-group w-200">
+                    <label class="text-capitalize">last name</label>
+                    <span class="text-danger" *ngIf="addUserForm.get('lastName')!.invalid&&(addUserForm.get('lastName')!.touched || formInvalid)"> is Required</span>
+                    <input type="text" class="form-control"  formControlName="lastName">
+                </div>
+                <div class="form-group w-200">
+                    <label class="text-capitalize">display name</label>
+                    <span class="text-danger" *ngIf="addUserForm.get('displayName')!.invalid&&(addUserForm.get('displayName')!.touched || formInvalid)"> is Required</span>
+                    <span class="text-danger" *ngIf="isdisplayName"> *Already Exists</span>
+                    <input type="text" class="form-control"  formControlName="displayName">
+                </div>
+            </div>
+            <div class="d-flex  justify-content-between">
+                <div class="form-group w-200">
+                    <label class="text-capitalize">phone</label>
+                    <span class="text-danger" *ngIf="isPhoneNumber">*Mobile Already Exists</span>
+                    <div class="text-danger" *ngIf="addUserForm.get('phoneNumber')!.invalid && (addUserForm.get('phoneNumber')!.dirty || addUserForm.get('phoneNumber')!.touched)">
+                        <div *ngIf="addUserForm.get('phoneNumber')!.hasError('required')">Phone Number is required.</div>
+                        <div *ngIf="addUserForm.get('phoneNumber')!.hasError('pattern')">Phone Number should contain 10 digits.</div>
+                    </div>
+                    <input type="text" class="form-control"  formControlName="phoneNumber">
+                </div>
+                <div class="form-group w-200">
+                    <label class="text-capitalize">email</label>
+                    <span class="text-danger" *ngIf="addUserForm.get('email')!.invalid&&(addUserForm.get('email')!.touched || formInvalid)"> is Required</span>
+                    <span class="text-danger" *ngIf="isUserEmail">*Email Already Exists</span>
+
+                    <input type="text" class="form-control"  formControlName="email">
+                </div>
+            </div>
+            <div class="form-group w-200">
+                <label class="text-capitalize">job title</label>
+                <span class="text-danger" *ngIf="addUserForm.get('jobTitle')!.invalid&&(addUserForm.get('jobTitle')!.touched || formInvalid)"> is Required</span>
+
+                <input type="text" class="form-control"  formControlName="jobTitle">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="checkbox-example"  formControlName="isAdmin">
+                <label for="checkbox-example">Invite this user to access corporate clubs</label>
+            </div>
+            <div class="form-group">
+                <div class="d-flex flex-column">
+                    <label for="clubList">Make this user as a member of following clubs</label>
+                    <div class="chip-wrapper">
+                        <div class="chip-wrapper border-bottom-0">
+                            <div *ngFor="let name of selectedClubNames; let i=index" class="chips employee-profile-header">
+                                <div class="profile profile-32">
+                                    <div class="profile-picture-container">
+                                        <div class="profile-picture ng-star-inserted">
+                                            <div class="img-initials bg-accent-violet">
+                                                <img src="{{ clubList[0].profileImageUrl}}" alt="" class="profile-picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="name">
+                                    {{  name['name'] }}
+                                </span>
+                                <span class="ki ki-cancel-circle" (click)="removeSelectedClub(i)"></span>
+                            </div>
+                            <input type="text" class="form-control chip-typeahead" id="clubList" formControlName="adminFor" (focus)="showClubList=true" (input)="onClubNameInput()"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card nav-list-card clear-margin" *ngIf="showClubList">
+                    <div class="card-body clear-padding">
+                        <div class="list-group">
+                            <a class="list-group-item" *ngFor="let name of matchingClubNames" (click)="onClubNameClick(name)">
+                                <label>{{ name['name'] }}</label>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </div>
+        <div class="form-group d-flex justify-content-end">
+            <button class="btn bg-slate mr-10" type="button" (click)="close()">Cancel</button>
+            <button class="btn bg-accent-violet text-white text-capitalize">add user</button>
+        </div>
+    
+    </form>
+</div>

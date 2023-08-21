@@ -1,0 +1,372 @@
+<div *ngIf="data" class="d-flex flex-column h-100">
+    <div class="card clear-margin">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h4>{{clubName}}</h4>
+                <div *ngIf="data.status" class="dropdown" dropdown>
+                    <a class="icon-click" dropdownToggle id="dropdown-menu" aria-haspopup="true" aria-expanded="false">
+                        <span class=" ki ki-more-vertical icon"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="dropdown-menu" *dropdownMenu>
+                        <li>
+                            <a class="dropdown-item text-capitalize" routerLink="../info">
+                                <i class="ki ki-info"></i>
+                                group info
+                            </a>
+                        </li>
+
+                        <li *ngIf="!isClubFavourite" (click)="addToFavourites()">
+                            <a class="dropdown-item ">
+                                <i class="ki ki-heart-fill"></i>
+                                Mark as favourite
+                            </a>
+                        </li>
+
+                        <li *ngIf="isClubFavourite" (click)="removeFromFavourites() ">
+                            <a class="dropdown-item ">
+                                <i class="ki ki-heart-fill"></i>
+                                UnMark as Favourites
+                            </a>
+                        </li>
+
+                        <li *ngIf="!isClubMuted">
+                            <a class="dropdown-item text-capitalize" (click)="openModal('mute')">
+                                <i class="ki ki-bell"></i>
+                                Mute notifications
+                            </a>
+                        </li>
+
+                        <li *ngIf="isClubMuted">
+                            <a class="dropdown-item text-capitalize" (click)="openModal('unmute')">
+                                <i class="ki ki-bell"></i>
+                                Unmute notifications
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-capitalize" (click)="openModal('leave')">
+                                <i class="ki ki-flight-fill"></i>
+                                exit club
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div #scrollMe [scrollTop]="scrollMe.scrollHeight"  class="flex-grow-1 h-100 border overflow-auto d-flex flex-column" *ngIf="data" >
+        <ng-container *ngFor="let d of merged;  let last = last" >
+            <div class="d-flex align-items-center mt-20" [id]="last ? 'lastItem' : null" *ngIf="d.isChatUpdateLog">
+                <div class="flex-grow-1 mr-20">
+                    <hr>
+                </div>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType == 9 && d.actionPerformedBy == currentUserId">
+                    You created {{d.name}} on 
+                    <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType == 9 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} created {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==0 && d.actionPerformedBy != currentUserId ">
+                    {{d.actionPerformedByName}} Changed Details of {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==1 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} Added {{d.actionPerformedOnName}} to {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==2 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} Added {{d.actionPerformedOnName}} As Admin 4to {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==3 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} Removed As Admin {{d.actionPerformedOnName}} from {{d.name}} on
+                    <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==4 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} Blocked {{d.actionPerformedOnName}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==5 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} UnBlocked {{d.actionPerformedOnName}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==6 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} Left From {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==0 && d.actionPerformedBy == currentUserId ">
+                    You Changed Details of {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==1 && d.actionPerformedBy == currentUserId">
+                    You Added {{d.actionPerformedOnName}} to {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==2 && d.actionPerformedBy == currentUserId">
+                    You Added As Admin by  {{d.actionPerformedOnName}} to {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==3 && d.actionPerformedBy == currentUserId">
+                    You Removed As Admin {{d.actionPerformedOnName}} from {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType== 4 && d.actionPerformedBy == currentUserId">
+                    You Blocked {{d.actionPerformedOnName}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType==5 && d.actionPerformedBy == currentUserId">
+                    You UnBlocked {{d.actionPerformedOnName}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType== 6 && d.actionPerformedBy == currentUserId">
+                    You Left From {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType== 7 && d.actionPerformedBy == currentUserId">
+                    You deactivated {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType== 7 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} deactivated {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType == 8 && d.actionPerformedBy == currentUserId">
+                    You reactivated {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+                <p class="text-small text-secondary max-w-540 text-center"
+                    *ngIf="d.messageType == 8 && d.actionPerformedBy != currentUserId">
+                    {{d.actionPerformedByName}} reactivated {{d.name}} on <span class="message-time" *ngIf="compareDate(d.postedOn)">
+                        {{d.postedOn  |date :'h:mm a'|lowercase}}
+                    </span>
+                    <span class="message-time" *ngIf="!compareDate(d.postedOn)">
+                        {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                    </span>
+                </p>
+
+
+                <div class="flex-grow-1 ml-20">
+                    <hr>
+                </div>
+            </div>
+            <div class="mb-20" [id]="last ? 'lastItem' : null" *ngIf="(d.senderId != currentUserId) && (!d.isChatUpdateLog)">
+                <div class="d-flex ml-30 mt-10">
+                    <div class="align-self-start employee-profile-header clear-padding">
+                        <div displayname="Example Profile" profileimageurl="" class="profile profile-20">
+                            <div class="profile-picture-container">
+                                <img [src]="[d.profileImageUrl]" alt="" srcset="" class="profile-picture" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <p class="text-primary font-weight-bold mr-10 ">{{d.displayName}}</p>
+                        <span class="text-secondary" *ngIf="compareDate(d.postedOn)">
+                            {{d.postedOn  |date :'h:mm a'|lowercase}}
+                        </span>
+                        <span class="text-secondary" *ngIf="!compareDate(d.postedOn)">
+                            {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                        </span>
+                        <!-- <span class="text-secondary">{{d.postedOn | date : 'hh:mm'}}</span> -->
+                    </div>
+                </div>
+                <div class="ml-30 mt-10 max-w-300">
+                    <div class="card  clear-margin">
+                        <div class="card-body ">
+                            <p>{{d.content}}</p>
+                            <div class="d-flex flex-wrap w-100">
+                                <div *ngFor="let attachment of d.attachments">
+                                    <a class="d-flex align-items-center mr-10"  [href]="[attachment.url]"  download>
+                                        <span class="ki ki-attachment"  ></span>
+                                        {{attachment.name}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-20 align-self-end mr-10" [id]="last ? 'lastItem' : null" *ngIf="(d.senderId == currentUserId) && (!d.isChatUpdateLog)">
+                <div class="d-flex mr-10 ml-auto mt-10 justify-content-end">
+                    <div class="d-flex">
+                        <span class="text-secondary mr-10" *ngIf="compareDate(d.postedOn)">
+                            {{d.postedOn  |date :'h:mm a'|lowercase}}
+                        </span>
+                        <span class="text-secondary mr-10" *ngIf="!compareDate(d.postedOn)">
+                            {{d.postedOn | date : 'dd/MM/yyyy, h:mm a'|lowercase}}
+                        </span>
+                        <p class="text-primary text-capitalize font-weight-bold mr-10 ">
+                            <!-- {{d.displayName}} -->you
+                        </p>
+                    </div>
+                    <div class="align-self-start employee-profile-header clear-padding">
+                        <div displayname="Example Profile" profileimageurl="" class="profile profile-20">
+                            <div class="profile-picture-container">
+                                <img src="{{d.profileImageUrl}}" alt="" srcset="" class="profile-picture" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" mt-10 max-w-300">
+                    <div class="card  clear-margin-y">
+                        <div class="card-body">
+                            <p class="">
+                                {{d.content}}
+                            </p>
+                            <div class="d-flex flex-wrap w-100">
+                            <div *ngFor="let attachment of d.attachments">
+                                <a class="d-flex align-items-center mr-10"  [href]="[attachment.url]"  download>
+                                    <span class="ki ki-attachment"  ></span>
+                                    {{attachment.name}}
+                                </a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        
+    </div>
+    <div *ngIf="data.status" class="card  clear-margin">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <input type="text"  [(ngModel)]="message" class="form-control border-0" placeholder="Type a message here"
+                    (keydown.enter)="sendMessage() ">
+                <div class="d-flex">
+                    <label for="file-upload" class="upload-btn">
+                        <span class="ki ki-attachment cursor-pointer"></span>
+                    </label>
+                    <input id="file-upload" class="d-none" multiple  type="file" (change)="fileSelected($event)">
+                    <!-- <i class="ki ki-face-smile cursor-pointer text-success mr-10"></i> -->
+                    <i class="ki ki-send cursor-pointer" (click)="sendMessage()"></i>
+                </div>
+            </div>
+            <div class="chip-wrapper">
+                <ng-container *ngFor="let attachment of attachmentsArray, let index = index">
+                    <div class="chips ng-star-inserted">
+                        <div class="employee-profile-header">
+                            <div class="profile profile-32">
+                                <div class="profile-picture-container">
+                                    <div class="profile-picture ng-star-inserted">
+                                        <div class="img-initials" style="background-color: rgb(100, 195, 209);"> {{attachment.name[0]}} </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="name">
+                            {{attachment.name}}
+                        </span>
+                        <span class="ki ki-close cursor-pointer ki-xs p-20" (click)="removeFromAttachement(index,attachment.name)"></span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!data.status" class="card clear-margin">
+        <div class="card-body text-center">
+            <h5 class="text-accent-violet fst-italic">This club is currently  Deactivated</h5>
+        </div>
+    </div>
+
+</div>

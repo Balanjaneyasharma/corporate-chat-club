@@ -1,0 +1,28 @@
+<div class="modal-header bg-secondary">
+    <h4 class="modal-title text-primary text-capitalize">Reactivate {{data['name']}}</h4>
+    <span class="ki ki-close text-primary" (click)="close()"></span>
+</div>
+<div class="modal-body">
+    <h4>What happens Next ?</h4>
+    
+    <ul class="list-style-circle">
+        <li class="" ngClass="ps-10">
+            This useer login will be abled and remaining users will 
+            be able to contact the user 
+        </li>
+        <li>
+            This user will not be shown as inactive users in all the clubs he/she is part of
+        </li>
+    </ul>
+    <div class="form-group mt-20">
+        <label for="">Reason</label>
+        <textarea class="form-control" rows="3" [(ngModel)]="reActivateUserReason"></textarea>
+    </div>
+
+    <div class="mt-10 d-flex justify-content-end">
+        <button class="btn bg-secondary mr-10" (click)="close()">Cancel</button>
+        <button class="btn bg-accent-violet text-white" (click)="reActivateUser()">
+            Confirm
+        </button>
+    </div>
+</div>

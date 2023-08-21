@@ -1,0 +1,52 @@
+
+<app-data-filters [filterSet]="filterSet" (filtersChanged)="filterData($event)"></app-data-filters>
+<div class="row no-gutters">
+  <ng-container *ngFor="let d of filteredData |  propertyFilter:'name':filterTerm">
+    <!-- | clubFilter:isPublicOpen:isPublicClosed:isPrivate | clubStatus:isActive:isInactive -->
+    <div class="col-default-3">
+      <div class="card">
+        <div class="card-body clear-padding">
+          <div class="d-flex justify-content-between align-items-center p-16">
+            <h6>{{d.name}}</h6>
+            <div class="dropdown" dropdown>
+              <a class="icon-click" dropdownToggle id="dropdown-menu" aria-haspopup="true" aria-expanded="false">
+                  <span class=" ki ki-more-vertical icon"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-menu" *dropdownMenu>
+                <li>
+                  <button class="dropdown-item">Report this Club</button>
+                </li>
+                <li *ngIf="(d.isAdmin || isCurrentUserGlobalAdmin) && d.status">
+                  <button class="dropdown-item" (click)="deactivateClub(d)">Deactivate  club</button>
+                </li>
+                <li *ngIf="(d.isAdmin || isCurrentUserGlobalAdmin) && !d.status">
+                  <button class="dropdown-item" (click)="reactivateClub(d)">Reactivate  club</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <img [src]="d.profileImageUrl" alt="" srcset="" class="w-100 h-200">
+          <div class="p-16">
+            <p class="font-weight-400">{{d.description}}</p>
+            <span class="text-secondary">Created by {{d.createdBy}} on {{d.createdOn| date : 'MMM d, y'}}</span>
+            <div class="mt-10 d-flex justify-content-between">
+              <div class="d-flex align-items-center">
+                <i class="ki ki-user mr-10"></i>
+                <span>{{d.participants}}</span>
+              </div>              
+              <button class="btn btn-link text-white text-capitalize" *ngIf="d.isAdmin != null" (click)="exitClub(d)" >Exit club</button>
+              <ng-container *ngIf="d.isAdmin === null && d.status">
+                <button class="btn bg-secondary text-capitalize" *ngIf="d.requestStatus != null" (click)="cancelRequest(d.clubId)">Cancel request</button>
+                <div *ngIf="d.requestStatus === null">
+                  <button class="btn bg-accent-violet text-capitalize text-white common-btn" *ngIf="d.isPublic && (d.type || !d.type)" (click)="d.type ? requestToJoin(d.clubId) : joinClub(d.clubId)">
+                    {{ d.type ? 'request join' : 'join' }}
+                  </button>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

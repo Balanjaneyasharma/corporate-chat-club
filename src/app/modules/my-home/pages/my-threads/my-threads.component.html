@@ -1,0 +1,6 @@
+<div class="page-title mb-20">
+    <div class="d-flex justify-content-between">
+        <h4 class="text-capitalize">my threads</h4>
+    </div>
+</div>
+<app-my-thread-list *ngIf="threadList.length!=0" [data]="threadList"></app-my-thread-list>

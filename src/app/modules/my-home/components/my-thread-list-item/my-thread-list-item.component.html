@@ -1,0 +1,64 @@
+<a [routerLink]="[threadListItem.receiverId,'chat']"  (click)="threadListItem.unReadCount=0" routerLinkActive="active" class="list-group-item d-flex justify-content-between border-bottom-dashed">
+    <!-- routerLink="{{threadListItem.receiverId}}/chat" -->
+    <div class="d-flex"> 
+        <div class="card-body align-self-start employee-profile-header clear-padding">
+            <div displayname="Example Profile" profileimageurl="" class="profile profile-20" >
+                <div class="profile-picture-container">
+                    <img  [src]="threadListItem.profileImageUrl" alt="" srcset="" class="profile-picture" />
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="text-primary font-weight-bold ">
+                {{threadListItem.receiverDisplayName}}
+            </p>
+            <ng-container *ngIf="threadListItem.blockedBy === null">
+                <span class=" text-primary text-truncate w-250" *ngIf="currUserId == threadListItem.lastMessageSenderId && threadListItem.status != 2 && threadListItem.lastMessage != null &&threadListItem.lastMessage.length > 0">
+                    You : {{threadListItem.lastMessage}}
+                </span>
+                <span class=" text-primary text-truncate w-250" *ngIf="currUserId == threadListItem.lastMessageSenderId  && threadListItem.status != 2 && threadListItem.lastMessage != null && threadListItem.lastMessage.length == 0 && threadListItem.isAttachmentsPresent">
+                    You : sent a file
+                </span>
+                <span class=" text-primary text-truncate w-250" *ngIf="currUserId != threadListItem.lastMessageSenderId && threadListItem.status != 2 && threadListItem.lastMessage != null  && threadListItem.lastMessage.length > 0">
+                    {{threadListItem.receiverDisplayName}} : {{threadListItem.lastMessage}}
+                </span>
+    
+                <span class=" text-primary text-truncate w-250" *ngIf="currUserId != threadListItem.lastMessageSenderId &&  threadListItem.status != 2 && threadListItem.lastMessage != null && threadListItem.lastMessage.length == 0 && threadListItem.isAttachmentsPresent">
+                    {{threadListItem.receiverDisplayName}} : sent a file
+                </span>
+    
+                <span class=" text-primary text-truncate w-250" *ngIf="threadListItem.lastMessage == null && threadListItem.status==1 && !threadListItem.isAttachmentsPresent">
+                    No Messages To Show
+                </span>
+    
+                <span class=" text-primary text-truncate w-250" *ngIf="threadListItem.invitedBy != currUserId && threadListItem.status ===2 ">
+                    Requested to connect
+                </span>
+                <span class=" text-primary text-truncate w-250 text-capitalize" *ngIf="threadListItem.invitedBy == currUserId && threadListItem.status===2">
+                    waiting for connection
+                </span>
+            </ng-container>
+            <ng-container *ngIf="threadListItem.blockedBy">
+                <span class=" text-primary text-truncate w-250" *ngIf="threadListItem.blockedBy == currUserId">
+                    You have Blocked
+                </span>
+                <span class=" text-primary text-truncate w-250" *ngIf="threadListItem.blockedBy != currUserId">
+                    You are Blocked
+                </span>
+            </ng-container>
+        </div>
+    </div>
+    <div class="d-flex flex-column">
+        <ng-container *ngIf="threadListItem.postedOn">
+            <span class="text-primary" *ngIf="compareDate(threadListItem.postedOn)">
+                {{threadListItem.postedOn  |date :'h:mm a'|lowercase}}
+            </span>
+            <span class="text-primary" *ngIf="!compareDate(threadListItem.postedOn)">
+                {{threadListItem.postedOn | date : 'dd/MM/yyyy'|lowercase}}
+            </span>    
+        </ng-container>
+        <span class="badge badge-pill w-10 rounded-circle bg-accent-yellow align-self-end" *ngIf="threadListItem.unReadCount">
+            {{threadListItem.unReadCount}}
+        </span>
+    </div>   
+</a>

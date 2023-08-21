@@ -1,0 +1,52 @@
+<a [routerLink]="[clubListItem.clubId,'chat']"  (click)="clubListItem.unReadCount=0" routerLinkActive="active" class="list-group-item d-flex justify-content-between border-bottom-dashed">
+    <div class="d-flex">
+        <div class="card-body align-self-start employee-profile-header clear-padding">
+            <div displayname="Example Profile" class="profile profile-20" >
+            <div class="profile-picture-container">
+                <img *ngIf="clubListItem.profileImageUrl" src="{{clubListItem?.profileImageUrl}}" alt="supposed to be an image here" class="profile-picture" />
+            </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="text-primary font-weight-bold ">{{clubListItem.name}}</p>
+            <ng-container *ngIf="clubListItem.status">
+                <span class="text-secondary text-truncate w-250" *ngIf="currentUserId == clubListItem.senderId && clubListItem.lastMessage!=null && clubListItem.lastMessage.length!=0" [ngClass]="'clubListItem.unReadCount !=0 ' ?  'font-weight-bold text-primary' : ''" >
+                    You : {{clubListItem.lastMessage}}
+                </span>
+    
+                <span class="text-secondary text-truncate w-250" *ngIf="currentUserId != clubListItem.senderId && clubListItem.lastMessage!=null && clubListItem.lastMessage.length!=0" [ngClass]="'clubListItem.unReadCount !=0 ' ?  'font-weight-bold text-primary' : ''" >
+                    {{clubListItem.lastMessageDisplayName}} : {{clubListItem.lastMessage}}
+                </span>
+                <span class=" text-primary text-truncate w-250" *ngIf="currentUserId == clubListItem.senderId  &&  clubListItem.lastMessage!=null && clubListItem.lastMessage.length === 0 && clubListItem.isAttachmentsPresent">
+                    You : sent a file
+                </span>
+                <span class=" text-primary text-truncate w-250" *ngIf="currentUserId != clubListItem.senderId  && clubListItem.lastMessage!=null &&  clubListItem.lastMessage.length === 0 && clubListItem.isAttachmentsPresent">
+                    {{clubListItem.lastMessageDisplayName}} : sent a file
+                </span>
+                <span class=" text-primary text-truncate w-250" *ngIf="clubListItem.senderId == 0">
+                    No messages to show
+                </span>
+            </ng-container>
+            <span class=" text-primary text-truncate w-250" *ngIf="!clubListItem.status">
+                Club Deactivated.
+            </span>
+
+            
+
+        
+        </div>
+    </div>
+    <div class="d-flex flex-column">
+        <ng-container *ngIf="clubListItem.postedOn">
+            <span class="text-primary" *ngIf="compareDate(clubListItem.postedOn)">
+                {{clubListItem.postedOn  |date :'h:mm a'|lowercase}}
+            </span>
+            <span class="text-primary" *ngIf="!compareDate(clubListItem.postedOn)">
+                {{clubListItem.postedOn | date : 'dd/MM/yyyy' |lowercase}}
+            </span>
+        </ng-container>
+        <span class="badge badge-pill w-10 rounded-circle bg-accent-yellow align-self-end" *ngIf="clubListItem.unReadCount">
+            {{clubListItem.unReadCount}}
+        </span>
+    </div>    
+</a>

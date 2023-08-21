@@ -1,0 +1,14 @@
+
+<app-data-filters *ngIf="clubData.length" [filterSet]="filterSet" (filtersChanged)="filterData($event)"></app-data-filters>
+
+<div class="card clear-margin-x clear-padding">
+  <ag-grid-angular class="ag-theme-material h-450"
+ [gridOptions]="gridOptions"
+ [rowData]="rowData "
+ [headerHeight]="headerHeight"
+ (gridReady)="onGridReady()"
+[rowHeight]="rowHeight"
+(removeRowFromGrid)="onEventFromChild($event)"
+></ag-grid-angular>
+
+</div> 

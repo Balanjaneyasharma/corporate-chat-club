@@ -1,0 +1,123 @@
+<div class="modal-header bg-secondary">
+    <div class="d-flex justify-content-between align-items-center ">
+        <h4>Add new Club</h4>
+        <span class="ki ki-close text-primary" (click)="closeModal()"></span>
+    </div>
+ </div>
+ <div class="modal-body clear-padding">
+     <form action="" [formGroup]="reactiveForm" class="d-flex" >
+         <div class=" p-40 border-dashed border-bottom-0 border-top-0 border-left-0 border-right-1px d-flex  flex-column justify-content-center align-items-center">
+                 <label for="fileInput" class="cursor-pointer w-250 h-250 rounded-circle">
+                         <img src="{{imageUrl}}"   class=" object-fit-cover  w-100 h-100 rounded-circle" alt="" srcset="">
+                 </label>
+                 <input #img type="file" name=""  class="d-none" id="fileInput" (change)="changeImage($event)" formControlName="clubProfile">
+             <p >Add Group Icon (optional)</p>
+         </div>
+         <div class="w-75 p-20">
+             <div class="form-group w-50">
+                 <label>Name*</label>
+                 <span class="text-danger" *ngIf="reactiveForm.get('name')!.invalid&&(reactiveForm.get('name')!.touched || formInvalid)"> is Required</span>
+ 
+                 <input type="text" class="form-control" placeholder="Enter Name" formControlName="name">
+             </div>
+             <div class="form-group w-75">
+                 <label>Description*</label>
+                 <span class="text-danger" *ngIf="reactiveForm.get('description')!.invalid&&(reactiveForm.get('description')!.touched || formInvalid)"> is Required</span>
+                 <textarea class="form-control screen-height-card" rows="3" placeholder="Enter Club Description" formControlName="description"></textarea>
+             </div>
+             <div class="form-group d-flex">
+                 <p class="mr-3">This Club is a Public Club</p>
+                 <input type="checkbox"   class="toggle-switch" id="clubType" formControlName="isPublic" >
+                 <label for="clubType" class="switch-label mb-10"></label>
+             </div>
+             <div *ngIf="reactiveForm.get('isPublic')!.value" class="d-flex flex-column form-group">
+                 <input type="radio"   class="radio-button-sm" id="openClub" formControlName="clubType"  value="open" />
+                 <label for="openClub"class=" text-capitalize">open club</label>
+                 <input type="radio"  class="radio-button-sm" id="closeClub" formControlName="clubType"  value="closed" />
+                 <label for="closeClub" class=" text-capitalize">closed club</label>
+             </div>
+             <div class="form-group w-75">
+                 <div class="d-flex flex-column">
+                     <label for="clubAdmins" class="text-capitalize">Add Club Admins(optional)</label>
+                     <div class="chip-wrapper">
+                         <div class="chip-wrapper border-bottom-0">
+                             <div *ngFor="let user of selectedAdmins; let i=index" class="chips employee-profile-header">
+                                 <div class="profile profile-32">
+                                     <div class="profile-picture-container">
+                                         <div class="profile-picture ng-star-inserted">
+                                             <div class="img-initials bg-accent-violet">
+                                                 <img src="{{user.profileImageUrl}}" alt="" class="profile-picture">
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <span class="name">
+                                    {{ user.displayName }}
+                                 </span>
+                                 <span class="ki ki-cancel-circle" (click)="removeSelectedAdmin(i)"></span>
+                             </div>
+                             <input type="text" class="form-control chip-typeahead" id="clubAdmins" formControlName="clubAdmins" (focus)="showClubAdmins=true" (input)="onClubAdminInput()"/>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="card nav-list-card clear-margin position-absolute z-index-2" *ngIf="showClubAdmins && matchingAdmins.length">
+                     <div class="card-body clear-padding">
+                         <div class="list-group h-85 overflow-auto">
+                             <a class="list-group-item" *ngFor="let user of matchingAdmins" (click)="onClubAdminClick(user)">
+                                <label>{{ user.displayName }}</label>
+                             </a>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+             <div class="form-group w-75">
+                 <div class="d-flex flex-column">
+                    <label for="clubMembers" class="text-capitalize d-inline">Add Club Members
+                        <span class="text-danger " *ngIf="selectedMembers.length ===  0 && (reactiveForm.get('clubMembers')!.touched || formInvalid)">
+                              is Required
+                        </span>
+                    </label>
+                     <div class="chip-wrapper">
+                         <div class="chip-wrapper border-bottom-0">
+                            <div *ngFor="let user of selectedMembers; let i=index" class="chips employee-profile-header">
+                                <div class="profile profile-32">
+                                    <div class="profile-picture-container">
+                                        <div class="profile-picture ng-star-inserted">
+                                            <div class="img-initials bg-accent-violet">
+                                                <img src="{{user.profileImageUrl}}" alt="" class="profile-picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="name">
+                                    {{ user.displayName }}
+                                </span>
+                                <span class="ki ki-cancel-circle" (click)="removeSelectedMember(i)"></span>
+                            </div>
+                            <input type="text" class="form-control chip-typeahead" id="clubMembers" formControlName="clubMembers" (focus)="showClubMembers=true" (input)="onClubMemberInput()"/>
+                         </div>
+                     </div>
+                 </div>
+                 <div  class="card nav-list-card clear-margin position-absolute z-index-2" *ngIf="showClubMembers && matchingMembers.length">
+                     <div class="card-body clear-padding">
+                         <div class="list-group h-85 overflow-auto">
+                             <a class="list-group-item" *ngFor="let user of matchingMembers" (click)="onClubMemberClick(user)">
+                                 <label>{{ user.displayName }}</label>
+                             </a>
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <!-- <label for="">Add Club Members*</label>
+                 <span class="text-danger" *ngIf="reactiveForm.get('clubMembers')!.invalid&&(reactiveForm.get('clubMembers')!.touched || formInvalid)"> is Required</span>
+ 
+                 <input type="text" class="form-control border-left-0 border-top-0 border-right-0 chip-typeahead" placeholder="search" formControlName="clubMembers"> -->
+             </div>
+ 
+             <div class="form-group d-flex justify-content-end">
+                 <button class="btn bg-slate mr-10" type="button" (click)="closeModal()">Cancel</button>
+                 <button class="btn bg-accent-violet" type="submit" (click)="onSubmit()">Add Club</button>
+             </div>
+         </div>
+     </form>
+ </div>

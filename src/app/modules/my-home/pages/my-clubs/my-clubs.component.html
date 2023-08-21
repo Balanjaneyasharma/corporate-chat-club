@@ -1,0 +1,20 @@
+<div *ngIf="!clubData.length" class="d-flex position-absolute top-50 start-50 translate-middle  w-100 gap-3 justify-content-center flex-column  align-items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" ngClass="h-200 w-200" fill="currentColor" class="ki ki-user-group" viewBox="0 0 16 16">
+        <path d="M7.998 9.333c1.196 0 2.148-.97 2.148-2.166C10.146 5.97 9.176 5 7.998 5 6.802 5 5.85 5.97 5.85 7.167a2.14 2.14 0 0 0 2.148 2.166Zm0-3.666c.827 0 1.5.673 1.5 1.5s-.675 1.5-1.5 1.5-1.5-.673-1.5-1.5.673-1.5 1.5-1.5ZM9.04 10H6.96C5.325 10 4 11.244 4 12.777c0 .308.265.556.592.556h6.816c.328 0 .592-.248.592-.556C12 11.244 10.675 10 9.04 10Zm-4.37 2.667c.064-1.113 1.067-2 2.274-2H9.04c1.224 0 2.227.887 2.273 2H4.67ZM12 6a1.667 1.667 0 1 0 0-3.333A1.667 1.667 0 0 0 12 6Zm0-2.667a1.001 1.001 0 0 1 0 2 1 1 0 0 1 0-2ZM4 6a1.667 1.667 0 1 0 0-3.334A1.667 1.667 0 0 0 4 6Zm0-2.667a1.001 1.001 0 0 1 0 2 1 1 0 0 1 0-2Zm9.023 3.334h-1.356c-.233 0-.46.052-.677.155a.333.333 0 0 0 .286.602.915.915 0 0 1 .39-.09h1.357c.52 0 .977.472.977 1.056v.277a.333.333 0 1 0 .667 0V8.39c0-.95-.738-1.723-1.644-1.723Zm-8.298.756a.334.334 0 0 0 .286-.602 1.58 1.58 0 0 0-.678-.154H2.978c-.907 0-1.645.773-1.645 1.723v.277a.333.333 0 1 0 .667 0V8.39c0-.584.439-1.057.978-1.057h1.355c.134 0 .265.032.392.09Z"/>
+      </svg>
+    <p class="title-4">Oops you havent joined any clubs yet </p>
+    <div class="d-flex gap-2">
+        <button class="btn bg-accent-violet text-capitalize text-white" (click)="navigateToClubs()" >join club</button>
+        <button class="btn bg-accent-violet text-capitalize text-white" (click)="openModal()" >create new</button>
+    </div>
+</div>
+
+<div *ngIf="clubData.length">
+    <div class="page-title mb-20">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="text-capitalize">my clubs</h4>
+            <button class="btn bg-accent-violet text-white text-capitalize" (click)="openModal()" >create new</button>
+        </div>
+    </div>
+    <app-my-club-list [clubData]="clubData"></app-my-club-list>
+</div>

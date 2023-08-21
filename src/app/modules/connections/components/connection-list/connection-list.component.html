@@ -1,0 +1,35 @@
+<app-data-filters [filterSet]="filterSet" (filtersChanged)="filterData($event)"></app-data-filters>
+
+<div class="row no-gutters">
+  <ng-container *ngFor="let d of connectionsData | filter : filterTerm">
+    <div class="col-default-3" >
+      <div class="card employee-profile-card">
+        <div class="card-body employee-profile-header">
+          <div displayname="Example Profile" profileimageurl="" class="profile profile-80" >
+            <div class="profile-picture-container">
+              <img [src]="d.profileImageUrl" alt="supposed to be image here" srcset="" class="profile-picture" />
+            </div>
+          </div>
+          <div class="employee-details">
+            <h4>{{d.displayName}}</h4>
+            <span class="mb-10">{{ d.about }}</span>
+            <div class="d-flex align-items-center">
+              <i class="ki ki-bank mr-8"></i>
+              <span>{{ d.commonClubs }} in mutual</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <i class="ki ki-email"></i>
+              <span> {{ d.email }}</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <i class="ki ki-phone"></i>
+              <span>{{ d.phoneNumber }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+      <!--*ngIf="searchText === '' || d.name.toLowerCase().includes(searchText)
+        propertyFilter:'name':FilterTerm "-->

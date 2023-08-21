@@ -1,0 +1,52 @@
+<div class="card clear-margin-x clear-margin-b">
+    <div class="card-body grid-filters clear-padding">
+      <div class="report-filters ">
+        <div class="filters-container w-100">
+          <ng-container *ngFor="let filter of filterSet let ind = index">
+            <div *ngIf="filter.filterValues"  class="filter dropdown" dropdown>
+                <a dropdownToggle>
+                  <span>
+                      <span class="filter-label-sm text-capitalize ">
+                        {{filter.filterName}}
+                      </span>
+                      <span class="selected-filters text-capitalize">
+                        {{filter.selectedFilters}}
+                    </span>
+                  </span>
+                  <span class="ki-arrow-dropdown"></span>
+                </a>
+                <ul  (click)="$event.stopPropagation()" class="dropdown-menu dropdown-menu-right w-100" aria-labelledby="dropdown-menu" *dropdownMenu>
+                  <!-- <li>
+                    <label class="dropdown-item">
+                      <input class="checkbox-sm" type="checkbox" id="action3">
+                      <label for="action3" class="text-capitalize">select  all</label>
+                    </label>
+                  </li> -->
+                  <li *ngFor="let item of filter.filterValues let index = index">
+                    <label class="dropdown-item">
+                      <input class="checkbox-sm" type="checkbox" [id]="item.name" [(ngModel)]="item.checked" (change)="onChange(filter)" >
+                      <label [for]="item.name" class="text-capitalize">{{item.name}}</label>
+                    </label>
+                  </li>
+                </ul>
+            </div>
+            <div *ngIf="!filter.filterValues" class="flex-grow-1 border-bottom position-relative">
+              <div class="input-search mr-40">
+                <input type="text" placeholder="Search"  [(ngModel)]="filter.searchWord" (input)="emitFilters()" class="form-control border-0 h-100 w-100"/>
+                <span class="ki-search ki ki-sm"></span>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="border-left border-bottom  d-flex align-items-center">
+            <button class="m-auto btn" (click)="reset()">
+              <span class="ki-rotate-left"></span>
+              <span class="text-secondary text-uppercase ml-2 text-x-small">
+                  Reset
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

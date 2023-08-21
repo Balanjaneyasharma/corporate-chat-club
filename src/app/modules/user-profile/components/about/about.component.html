@@ -1,0 +1,108 @@
+<div *ngIf="userProfile" class="row no-gutters align-item-stretch">    
+    <div class="col-default-6">
+        <div class="card ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3 class="text-capitalize">personal details</h3>
+                    <span class="ki ki-edit text-secondary"></span>
+                </div>
+                <div class="data-bar multiple-line-bar mt-10">
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">First name</label>
+                       <p *ngIf="userProfile.firstName !== null">{{userProfile.firstName}}</p>
+                       <p *ngIf="userProfile.firstName === null">N/A</p>
+                    </div>
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">middle name</label>
+                       <p>{{userProfile["middleName"]}}</p>
+                    </div>
+                 </div>
+                 <div class="data-bar multiple-line-bar mt-10">
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">last name</label>
+                       <p>{{userProfile["lastName"]}}</p>
+                    </div>
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">display name</label>
+                       <p class="text-capitalize">{{userProfile["displayName"]}}</p>
+                    </div>
+                 </div>
+                 <div class="data-bar multiple-line-bar mt-10">
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">gender</label>
+                       <p class="text-capitalize">{{userProfile["gender"]}}</p>
+                    </div>
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">date of birth</label>
+                       <p>{{userProfile["dateOfBirth"]}}</p>
+                    </div>
+                 </div>
+                 <div class="data-bar multiple-line-bar mt-10">
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">martial status</label>
+                       <p class="text-uppercase">{{userProfile["maritialStatus"]}}</p>
+                    </div>
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">blood group</label>
+                       <p class="text-uppercase">{{userProfile["bloodGroup"]}}</p>
+                    </div>
+                 </div>
+                 <div class="data-bar multiple-line-bar mt-10">
+                    <div class="data-block">
+                       <label class="data-label text-uppercase">About</label>
+                       <p class="">{{userProfile["about"]}}</p>
+                    </div>
+                 </div>
+            </div>
+        </div> 
+    </div>
+    <div class="col-default-6">
+       <div class="row no-gutters">
+           <div class="col-default-12">
+               <div class="card">
+                   <div class="card-body">
+                       <div class="d-flex justify-content-between">
+                            <h3 class="text-capitalize">contact details</h3>
+                            <div>
+                                <span class="ki ki-edit text-secondary"></span>
+                                <span class="ki ki-eye-slash text-secondary"></span>
+                            </div>
+                       </div>
+                       <div class="data-bar multiple-line-bar mt-10">
+                            <div class="data-block">
+                                <label class="data-label text-uppercase">work phone</label>
+                                <p>{{userProfile["phoneNumber"]}}</p>
+                            </div>
+                            <div class="data-block">
+                                <label class="data-label text-uppercase">email</label>
+                                <p>{{userProfile["email"]}}</p>
+                            </div>
+                        </div>
+                        <div class="data-bar multiple-line-bar mt-10">
+                            <div class="data-block">
+                               <label class="data-label text-uppercase">address</label>
+                               <p class="w-75 mt-10">{{userProfile["address"]}}</p>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+           </div>
+           <div class="col-default-12 mt-20">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="text-capitalize">professional summary</h3>
+                        <div>
+                            <span class="ki ki-edit text-secondary"></span>
+                            <span class="ki ki-eye text-secondary"></span>
+                        </div>
+                    </div>
+                    <p class="w-400 mt-10">
+                        {{userProfile["professionalSummary"]}}
+                    </p>
+                </div>
+            </div>
+        </div>
+       </div>
+    </div>
+</div>

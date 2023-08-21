@@ -1,0 +1,31 @@
+<div class="modal-header bg-secondary text-primary">
+
+    <h5 class="modal-title text-primary">Delete {{fromParent.name}}</h5>
+    <span class="ki ki-close text-primary" (click)="close()"></span>
+</div>
+<div class="modal-body pt-4">
+    <h4>What happens Next ?</h4>
+    
+    <ul class="list-style-circle">
+        <li class="" ngClass="ps-10">
+            The club and all the conversation will be completely removed 
+            from the system
+        </li>
+        <li>
+            All the users in this club will be notified about the activity
+        </li>
+    </ul>
+    <div class="form-group mt-20">
+        <label for="">Reason</label>
+        <textarea [(ngModel)]="reason" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="mt-10 d-flex justify-content-end">
+        <button class="btn bg-secondary mr-10" (click)="close()">Cancel</button>
+        <button class="btn bg-accent-violet text-white" (click)="delete()" >Confirm</button>
+    </div>
+
+    
+
+    
+</div>

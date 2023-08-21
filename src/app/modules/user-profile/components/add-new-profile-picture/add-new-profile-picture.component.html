@@ -1,0 +1,33 @@
+<div class="modal-header bg-secondary text-primary">
+
+    <h3 class="modal-title text-capitalize text-primary"> add new profile picture </h3>
+    <span class="ki ki-close text-primary" (click)="close()"></span>
+</div>
+<div class="modal-body clear-padding">
+    <form  (ngSubmit)="changeProfilePicture()" [formGroup]="profileImageForm" class="d-flex">
+        <div class="p-24 w-33 border-dashed border-bottom-0 border-top-0 border-left-0 border-right-1px d-flex  flex-column  align-items-center">
+            <p class="text-primary font-weight-bold mb-10">Preview</p>
+            <div class="employee-profile-header clear-margin-y margin-x-auto">
+                <div class="profile profile-80">
+                    <div class=" clear-margin clear-margin-r">
+                        <img src="{{userProfileImageURL}}" alt="" srcset="" class="profile-picture" />  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-75 p-24 d-flex flex-column align-items-center">
+            <div class="d-flex mb-10">
+                <p class="text-primary font-weight-bold text-capitalize">upload from Device : </p>
+                <p class="text-link"> {{fileName}} </p>
+            </div>
+            <label for="fileInput" class="cursor-pointer w-200 h-200 justify-content-center align-self-center">
+                <img src="{{userProfileImageURL}}"   class=" object-fit-cover  w-100 h-100 " alt="" srcset="">
+            </label>
+            <input  type="file" name=""  class="d-none" id="fileInput" (change)="changeImage($event)">
+            <div class="mt-20 d-flex justify-content-end align-self-end">
+                <button class="btn bg-secondary mr-10 text-capitalize" type="button" (click)="close()">cancel</button>
+                <button class="btn bg-accent-violet text-white text-capitalize" >confirm</button>
+            </div>        
+        </div>
+    </form>
+</div>

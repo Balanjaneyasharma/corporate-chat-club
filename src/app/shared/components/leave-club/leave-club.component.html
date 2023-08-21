@@ -1,0 +1,21 @@
+<div class="modal-header bg-secondary text-primary">
+    <h3 class="modal-title text-primary"> Leave {{fromParent.name}}</h3>
+    <span class="ki ki-close text-primary" (click)="close()"></span>
+</div>
+<div class="modal-body pt-4">
+        <p>
+            You will be no longer be a part of this club and 
+            the previous messages will be deleted from your account.
+        </p>
+        <p>
+            Do you wish to continue?
+        </p>
+    <div class="mt-10 d-flex justify-content-end">
+        <button class="btn bg-secondary mr-10 text-capitalize" (click)="close()">cancel</button>
+        <button class="btn bg-danger text-white text-capitalize" (click)="leaveClub()">leave</button>
+    </div>
+
+    
+
+    
+</div>

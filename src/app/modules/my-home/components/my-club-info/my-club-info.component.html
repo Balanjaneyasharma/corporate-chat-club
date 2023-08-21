@@ -1,0 +1,142 @@
+<div *ngIf="clubInfoDetails.length!=0" class="d-flex flex-column h-100">
+    <div   class="card clear-margin">
+        <div class="card-body d-flex justify-content-between">
+            <div class="employee-profile-header p-8 clear-padding-b">
+                <div displayname="Example Profile" profileimageurl="" class="profile profile-120" >
+                    <div class="profile-picture-container">
+                        <img src="{{clubInfoDetails['clubInfo'].profileImageUrl}}" alt="supposed to be an image here" srcset="" class="profile-picture" />
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-around w-50">
+                <div class="d-flex align-items-center gap-2">
+                    <span>{{clubInfoDetails['clubInfo'].name| titlecase}}</span>
+                    <i *ngIf="!clubInfoDetails['clubInfo'].isPublic" class="ki ki-lock"></i>
+                </div>
+                <p class="text-secondary">
+                    {{clubInfoDetails['clubInfo'].description}}
+                </p>
+                <span class="text-secondary">Created by {{clubInfoDetails['clubInfo'].displayName}} On
+                    {{clubInfoDetails['clubInfo'].createdOn | date : 'dd/MM/yyyy , h:mm a'}}</span>
+            </div>
+            <div class="d-flex flex-column justify-content-between align-items-end">
+                <div class="d-flex ">
+                    <i class="ki ki-edit mr-10"></i>
+                    <i class="ki ki-close cursor-pointer" routerLink="../chat"></i>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="text-secondary mr-10">{{clubInfoDetails['clubInfo'].participants}} Participants </span>
+                    <i *ngIf="!(clubInfoDetails['isAdmin'] || isCurrentUserGlobalAdmin)" class="ki ki-user"></i>
+                    <div *ngIf="(clubInfoDetails['isAdmin'] || isCurrentUserGlobalAdmin)"  class="dropdown " dropdown  >
+                        <a class="icon-click" dropdownToggle id="dropdown-menu" aria-haspopup="true"
+                            aria-expanded="false">
+                            <button class="border-0 bg-body ki ki-add-user" (click)="getNewUsers()" id="new-users" >
+                            </button>
+                        </a>
+                        <ul (click)="$event.stopPropagation()"
+                            class="dropdown-menu dropdown-menu-right w-350  clear-padding-b"
+                            aria-labelledby="dropdown-menu" *dropdownMenu>
+                            <li class="ml-20">
+                                <p class="font-weight-600 mb-10">Select the users you want to add</p>
+                            </li>
+                            <li class="ml-20 mr-20 position-sticky top-0 z-index-3">
+                                <div class="input-sm">
+                                    <input type="text" class="form-control" 
+                                        [(ngModel)]="filterText"
+                                        placeholder="start typing user name ">
+                                </div>
+                            </li>
+                            <div class="max-h-250 overflow-auto">
+                                <li class="ml-10" *ngFor="let d of newUsers | filter : filterText ; let i =index">
+                                    <label class="dropdown-item">
+                                        <input class="checkbox-sm" type="checkbox" id=`action${{i}}` (click)="usersSelected(d.id)">
+                                        <label for=`action${{i}}`>
+                                            <div class="d-flex align-items-center ml-10">
+                                                <div class="card-body align-self-start employee-profile-header clear-padding">
+                                                    <div displayname="Example Profile" profileimageurl="" class="profile profile-28">
+                                                        <div class="profile-picture-container">
+                                                            <img src="{{d.profileImageUrl}}" alt="" srcset="" class="profile-picture" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                        <label>{{d.displayName}}</label>
+                                                        <span class="text-secondary">{{d.jobTitle}}</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </label>
+                                </li>
+                            </div>
+                            <li>
+                                <div class="d-flex card-footer justify-content-between align-items-center">
+                                    <div>
+                                        <p class="bg-secondary">{{selectedUsers}} Members Selected</p>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary btn-sm bg-accent-violet " (click)="addUserToClub()">Add
+                                            Members
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-grow-1 overflow-auto flex-row">
+        <app-club-participants [participantsData]="clubInfoDetails['allParticipants']"  [isAdmin]="clubInfoDetails['isAdmin']"  ></app-club-participants>
+        <div class="d-flex flex-column flex-grow-1">
+            <div *ngIf="clubInfoDetails['clubInfo'].isPublic && clubInfoDetails['clubInfo'].type">
+                <app-club-requests [data]="clubInfoDetails['clubReuests']" [isAdmin]="clubInfoDetails['isAdmin']"></app-club-requests>
+            </div>
+            <div class="p-16 clear-padding-b">
+                <h4 class="text-capitalize">group settings</h4>
+                <div class="card clear-margin">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <label class="mr-10" for="toggle-switch">Make {{clubInfoDetails['clubInfo'].name}} as public club</label>
+                            <div>
+                                <input type="checkbox" class="toggle-switch" id="toggle-switch" [checked]="clubInfoDetails['clubInfo'].isPublic"  [disabled]="!(clubInfoDetails['isAdmin'] || isCurrentUserGlobalAdmin )" (click)="togglePrivateOrPublic()">
+                                <label for="toggle-switch" class="switch-label"></label>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div *ngIf="clubInfoDetails['clubInfo'].isPublic">
+                                <div class="mt-10">
+                                    <input type="radio" name="radio" id="radio-example" [checked]="!clubInfoDetails['clubInfo'].type" [disabled]="!(clubInfoDetails['isAdmin'] || isCurrentUserGlobalAdmin )" (click)="toggleOpenOrClosed()" />
+                                    <label for="radio-example">Open Club</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="radio" id="radio-example2" [checked]="clubInfoDetails['clubInfo'].type" [disabled]="!(clubInfoDetails['isAdmin'] || isCurrentUserGlobalAdmin )" (click)="toggleOpenOrClosed()" />
+                                    <label for="radio-example2">Closed Club</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="isClubMuted">
+                            <div class="form-group">
+                                <input type="checkbox" id="checkbox-example" checked (click)="toggleMuteClub()">
+                                <label for="checkbox-example">UnMute all the notifications & messages in the club</label>
+                            </div>
+                        </div>
+                        <div *ngIf="!isClubMuted">
+                            <div class="form-group">
+                                <input type="checkbox" id="checkbox-example" (click)="toggleMuteClub()">
+                                <label for="checkbox-example">Mute all the notifications & messages in the club</label>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button *ngIf="clubInfoDetails['isAdmin'] || isCurrentUserGlobalAdmin" class="btn btn-link  text-capitalize" (click)="openModal('deactivate')">
+                                deactivate club
+                            </button>
+                            <button class="btn btn-link text-capitalize" (click)="openModal('leave')">exit club</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

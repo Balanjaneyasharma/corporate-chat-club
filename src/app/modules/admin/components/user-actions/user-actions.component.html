@@ -1,0 +1,17 @@
+<div class="dropdown d-flex align-items-center" dropdown container="body">
+    <a dropdownToggle id="menu" aria-haspopup="true" aria-expanded="false" class="icon-click">
+        <span class="ki ki-more-vertical "></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right w-100" aria-labelledby="menu" *dropdownMenu>
+        <li>
+            <button class="dropdown-item text-capitalize" (click)="changeUserRole()">
+                {{buttonText}}
+            </button>
+        </li>
+        <li>
+            <button class="dropdown-item text-capitalize" (click)="deleteUser()">
+                delete  peramanently
+            </button>
+        </li>
+    </ul>
+</div>

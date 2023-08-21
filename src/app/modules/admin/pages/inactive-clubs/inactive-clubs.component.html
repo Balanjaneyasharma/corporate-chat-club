@@ -1,0 +1,9 @@
+<div class="page-title">
+    <h4 class="text-capitalize">inactive clubs</h4>
+</div>
+
+<app-inactive-club-list *ngIf="clubData.length" [clubData]="clubData"></app-inactive-club-list>
+
+<div *ngIf="!clubData.length" class="mt-40">
+    <h4 class="text-center text-capitalize">no inactive clubs are there</h4>
+</div>

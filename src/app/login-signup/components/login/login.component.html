@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-center align-items-center h-75">
+    <div class="card w-350 ">
+        <div class="card-body border clear-padding">
+            <div  class="p-32 pb-40">
+                <p class="font-weight-bold text-large d-flex justify-content-center mb-20">
+                    Login to Corporate Chat club
+                </p>
+                <form id="loginForm" (ngSubmit)="loginUser()" [formGroup]="loginForm" autocomplete="on"
+                    class="d-flex justify-content-center flex-column">
+                    <div class="form-group">
+                        <label class="text-capitalize font-weight-bold">UserName <span class="text-danger" id="emailError"
+                                *ngIf="loginForm.get('userName')!.invalid && (loginForm.get('userName')!.touched ||
+                            loginForm.get('userName')!.dirty || isFormInvalid)">
+
+                                <span *ngIf="loginForm.get('userName')!.errors!['required']"
+                                    class="text-danger">*Required
+                                </span>
+                            </span>
+                        </label>
+                        <span class="text-danger" *ngIf="loginForm.get('userName')!.valid && isUserName">*UserName not Found</span>
+                        <input type="text" class="form-control input" formControlName="userName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-capitalize font-weight-bold">password<span class="text-danger" id="nameError"
+                                *ngIf="loginForm.get('password')!.invalid && (loginForm.get('password')!.touched || loginForm.get('password')!.dirty || isFormInvalid)">
+                                *Required</span>
+                            </label>
+                                <span class="text-danger" *ngIf="loginForm.get('password')!.valid && isPassword">*Password Incorrrect</span>
+                        <input type="password" class="form-control input" formControlName="password" required>
+                    </div>
+                    <button class="btn btn-primary" >Login</button>
+                    <div class="d-flex justify-content-between mt-5">
+                        <a routerLink="../forgot-password" class="text-decoration-none text-capitalize">
+                            forgot password ?
+                        </a>
+                        <p class="text-link " routerLink="../signup">New User ?
+                            Register here</p>
+                    </div>
+                </form>
+            </div>           
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+
+
+<app-data-filters *ngIf="userList.length" [filterSet]="filterSet" (filtersChanged)="filterData($event)"></app-data-filters>
+
+
+<div class="card clear-padding clear-margin-x">
+  <ag-grid-angular 
+    class="ag-theme-material h-450"
+    [gridOptions]="gridOptions"
+    [rowData]=" rowData"
+    (gridReady)="onGridReady()"
+    [headerHeight]="headerHeight"
+    [rowHeight]="rowHeight">
+  </ag-grid-angular>
+</div>

@@ -1,0 +1,99 @@
+<div class="d-flex  mt-0 justify-content-center">
+    <div class="card min-w-50 ">
+        <div class="card-body border clear-padding ">
+            <div class="p-32 pb-40">
+                <p class="font-weight-bold text-large d-flex justify-content-center mb-20">Register to Corporate Chat Clubs</p>
+                <form id="registerForm" [formGroup]="registerForm" class="d-flex justify-content-center flex-column">
+                    <div class="d-flex  justify-content-between">
+                        <div class="form-group w-250 mr-10">
+                            <label class="text-capitalize">first name</label>
+                            <span class="text-danger" *ngIf="registerForm.get('firstName')!.invalid&&(registerForm.get('firstName')!.touched || formInvalid)"> *Required</span>
+                            <input type="text" class="form-control"  formControlName="firstName">
+                        </div>
+                        <div class="form-group w-250">
+                            <label class="text-capitalize">middle name</label>
+                            <span class="text-danger" *ngIf="registerForm.get('middleName')!.invalid&&(registerForm.get('middleName')!.touched || formInvalid)"> *Required</span>
+                            <input type="text" class="form-control"  formControlName="middleName">
+                        </div>
+                    </div>
+                    <div class="d-flex  justify-content-between">
+                        <div class="form-group w-250">
+                            <label class="text-capitalize">last name</label>
+                            <span class="text-danger" *ngIf="registerForm.get('lastName')!.invalid&&(registerForm.get('lastName')!.touched || formInvalid)"> *Required</span>
+                            <input type="text" class="form-control"  formControlName="lastName">
+                        </div>
+                        <div class="form-group w-250">
+                            <label class="text-capitalize">display name</label>
+                            <span class="text-danger" *ngIf="registerForm.get('displayName')!.invalid&&(registerForm.get('displayName')!.touched || formInvalid)"> *Required</span>
+                            <span class="text-danger text-capitalize" *ngIf="isdisplayName"> *display already exists</span>
+                            <input type="text" class="form-control"  formControlName="displayName">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group w-250">
+                            <label class="text-capitalize ">email 
+                                <span class="text-danger" id="emailError"
+                                *ngIf="registerForm.get('email')!.invalid && (registerForm.get('email')!.touched ||
+                                registerForm.get('email')!.dirty)" >
+                                    <span *ngIf="registerForm.get('email')!.errors!['required']"
+                                        class="text-danger">
+                                        *Required
+                                    </span>
+                                    <span *ngIf="registerForm.get('email')!.errors!['email']" class="text-danger text-capitalize">
+                                        *enter correct email
+                                    </span>
+                                </span>
+                            </label>
+                            <span class="text-danger text-capitalize" *ngIf="isUserEmail">
+                                *email already exists
+                            </span>
+                            <input type="text" class="form-control input" formControlName="email" required>
+                        </div>
+                        <div class="form-group w-250">
+                            <label class="text-capitalize ">mobile
+                                <span class="text-danger" id="mobileError"
+                                    *ngIf="registerForm.get('phone')!.invalid && (registerForm.get('phone')!.touched || registerForm.get('phone')!.dirty)" >
+                                    <span *ngIf="registerForm.get('phone')!.errors!['required']"
+                                        class="text-danger">
+                                        *Required
+                                    </span>
+                                    <span *ngIf="registerForm.get('phone')!.errors!['phone']" class="text-danger">
+                                        *Mobile must be 10 digits
+                                    </span>
+                                </span>
+                            </label>
+                            <span class="text-danger" *ngIf="isPhoneNumber">
+                                *Mobile Already Exists
+                            </span>
+                            <input type="number" class="form-control input" formControlName="phone" required>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group w-250">
+                            <label class="text-capitalize">password
+                                <span class="text-danger" id="nameError"
+                                    *ngIf="registerForm.get('password')!.invalid && (registerForm.get('password')!.touched || registerForm.get('password')!.dirty)">
+                                    *Required
+                                </span>
+                            </label>
+                            <input type="password" class="form-control input" formControlName="password" required>
+                        </div>
+                        <div class="form-group w-250">
+                            <label class="text-capitalize">Re-enter password<span class="text-danger" id="nameError"
+                                    *ngIf="registerForm.get('newpassword')!.invalid && (registerForm.get('newpassword')!.touched || registerForm.get('newpassword')!.dirty)">
+                                    *Required
+                                </span>
+                            </label>
+                            <input type="password" class="form-control input" formControlName="newpassword" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" (click)="registerUser()">Register</button>
+                    <p class="text-link d-flex justify-content-center mt-5" routerLink="../login">
+                        Already registered ? Login here
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+                    

@@ -1,0 +1,1 @@
+export * from './my-club-chat.component';

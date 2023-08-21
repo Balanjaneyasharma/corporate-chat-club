@@ -1,0 +1,31 @@
+<div class="d-flex  h-500  max-h-600">
+    <div class="w-400  d-flex flex-column">
+        <div class="input-search bg-white ">
+            <input type="text" class="form-control max-h-50"  placeholder="search" [(ngModel)]="filterText" />
+            <span class=" ki ki-search"></span>
+        </div>
+        <div class="card nav-list-card clear-margin flex-grow-1 overflow-auto">
+            <div class="card-body clear-padding">
+                <div class="list-header">
+                    <label>Favourites</label>
+                </div>
+                <div class="list-group">
+                    <ng-container *ngFor="let d of data | filter:filterText">
+                        <app-my-thread-list-item [threadListItem]="d" *ngIf="d.isFavourite"></app-my-thread-list-item>
+                    </ng-container>
+                </div>
+                <div class="list-header">
+                    <label>Chats</label>
+                </div>
+                <div class="list-group">
+                    <ng-container *ngFor="let d of data | filter:filterText">
+                        <app-my-thread-list-item [threadListItem]="d" *ngIf="!d.isFavourite"></app-my-thread-list-item>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-grow-1">
+        <router-outlet></router-outlet>
+    </div>
+</div>

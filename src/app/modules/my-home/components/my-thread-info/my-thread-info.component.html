@@ -1,0 +1,43 @@
+<div class="card position-relative mt-70">
+    <div *ngIf="threadInfoData.length!=0 && threadData" class="card-body mt-10 position-relative d-flex flex-column  align-items-center justify-content-between">
+        <div class=" position-absolute align-self-start position-absolute top-0 start-50 translate-middle employee-profile-header clear-padding">
+            <div displayname="Example Profile" profileimageurl="" class="profile profile-120" >
+                <div class="profile-picture-container">
+                    <img *ngIf="threadData.profileImageUrl" src="{{threadData.profileImageUrl}}" alt="" srcset="" class="profile-picture" />
+                </div>
+            </div>
+        </div>
+        <div class="d-flex mt-40 flex-column align-items-center gap-2 justify-content-between">
+            <h1 *ngIf="currUserId == threadData.invitedBy">You have  requested {{threadData.receiverDisplayName}} to connect</h1>
+            <h1 *ngIf="currUserId !=  threadData.invitedBy">{{threadData.receiverDisplayName}} want to connect with you ! </h1>
+            <div class="d-flex align-items-center">
+                <span class="ki ki-bank sidebar-list-icon mr-10"></span>
+                <span >{{threadInfoData["info"].commonClubs}} in mutual</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                    <i class="ki ki-mail"></i>
+                    <span>{{threadInfoData["info"].email}}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="ki ki-phone"></i>
+                    <span>{{threadInfoData["info"].phoneNumber}}</span>
+                </div>
+            </div>
+
+            <div *ngIf="threadInfoData.names.length!=0">
+                <p>You and {{threadData.receiverDisplayName}} know </p>
+                <div class="d-flex">
+                    <span *ngFor="let name of threadInfoData.names" class="mr-4">
+                        {{name}}
+                    </span>
+                </div>
+            </div>
+            <div class="d-flex gap-2 " *ngIf="currUserId != threadData.invitedBy">
+                <button class="btn btn-link btn-sm text-capitalize" (click)="connectUser()">connect now</button>
+                <button class="btn btn-link btn-sm text-capitalize" (click)="blockUser()">block</button>
+            </div> 
+            <h3 *ngIf="currUserId == threadData.invitedBy">Waiting for {{threadData.receiverDisplayName}} to respond ..!</h3>   
+        </div>
+    </div>
+</div>
